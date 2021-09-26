@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http//thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Home Page</title>
+</head>
+<body>
+<h1>User Home page</h1>
+
+<div>
+    <div>
+        <th:block>
+            <label>Login name:</label>
+            <h1 th:text="${userinfo}"></h1>
+        </th:block>
+    </div>
+    <form method="get" action="/logout">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+</body>
+</html>
