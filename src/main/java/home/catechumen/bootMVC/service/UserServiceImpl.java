@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Transactional
+    @Transactional (readOnly = true)
     @Override
     public List<User> getAll() {
         return userDao.getAll();
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
         userDao.delete(id);
     }
 
-    @Transactional
+    @Transactional (readOnly = true)
     @Override
     public User getById(Long id) {
         return userDao.getById(id);
