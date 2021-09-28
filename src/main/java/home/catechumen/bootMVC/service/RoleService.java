@@ -1,9 +1,9 @@
-package home.catechumen.bootMVC.dao;
+package home.catechumen.bootMVC.service;
 
 import home.catechumen.bootMVC.model.Role;
 
 import java.util.List;
 
-public interface RoleDao {
+public interface RoleService {
     List<Role> getAll();
 }

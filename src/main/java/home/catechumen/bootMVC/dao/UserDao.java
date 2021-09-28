@@ -1,13 +1,24 @@
 package home.catechumen.bootMVC.dao;
 
 import home.catechumen.bootMVC.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserDao extends JpaRepository<User, Long> {
+import java.util.List;
 
-    @Query(value = "select u FROM User u where u.name=?1")
-    User findUserByName(String name);
+
+public interface UserDao {
+
+    List<User> getAll();
+
+    User getById(Long id);
+
+    void save(User user);
+
+    void update(User updatedUser);
+
+    void delete(Long id);
+
+    User findByUserName(String username);
+
+//    @Query(value = "select u FROM User u where u.name=?1")
+//    User findUserByName(String name);
 }

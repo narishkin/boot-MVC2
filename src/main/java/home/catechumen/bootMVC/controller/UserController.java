@@ -11,15 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 public class UserController {
 
-    UserServiceImpl userService;
-    RoleServiceImpl roleService;
+    private final UserServiceImpl userService;
+    private final RoleServiceImpl roleService;
 
     @Autowired
     public UserController(UserServiceImpl userService, RoleServiceImpl roleService) {
@@ -36,7 +35,7 @@ public class UserController {
 
     @GetMapping("/users/new")
     public String createForm(User user, Model model) {
-        List<Role> listRoles = roleService.findAll();
+        List<Role> listRoles = roleService.getAll();
         model.addAttribute("listRoles", listRoles);
         model.addAttribute("user", user);
         return "new";
@@ -56,7 +55,7 @@ public class UserController {
 
     @GetMapping("/users/edit/{userId}")
     public String updateForm(Model model, @PathVariable("userId") Long id) {
-        List<Role> listRoles = roleService.findAll();
+        List<Role> listRoles = roleService.getAll();
         model.addAttribute("user", userService.getById(id));
         model.addAttribute("listRoles", listRoles);
         return "edit";

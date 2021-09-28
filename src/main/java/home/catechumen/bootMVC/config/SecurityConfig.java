@@ -10,25 +10,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
-    private final PasswordEncoder passwordEncoder;
-
-
-    UserDetailsServiceImpl userDetailsServiceImpl;
-
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Autowired
-    public SpringSecurityConfig(PasswordEncoder passwordEncoder, UserDetailsServiceImpl userDetailsServiceImpl) {
-        this.passwordEncoder = passwordEncoder;
+    public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -48,25 +40,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailsServiceImpl);
         return daoAuthenticationProvider;
     }
-
-//    @Bean
-//    public UserDetailsService users() {
-//        UserDetails admin = User.builder()
-//                .username("admin")
-//                .password(passwordEncoder.encode("123"))
-//                .roles("ADMIN")
-//                .build();
-//        UserDetails user = User.builder()
-//                .username("user")
-//                .password(passwordEncoder.encode("123"))
-//                .roles("USER")
-//                .build();
-//        return new InMemoryUserDetailsManager(admin, user);
-//    }
 }

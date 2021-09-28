@@ -5,42 +5,51 @@ import home.catechumen.bootMVC.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl{
+public class UserServiceImpl implements UserService {
 
-    UserDao userDao;
-    PasswordEncoder passwordEncoder;
+    private final UserDao userDao;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserDao userDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
-        this.passwordEncoder=passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public List<User> getAll(){
-        return userDao.findAll();
+    @Transactional
+    @Override
+    public List<User> getAll() {
+        return userDao.getAll();
     }
 
-    public void save(User user){
+    @Transactional
+    @Override
+    public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.save(user);
     }
 
-    public void delete(Long id){
-        userDao.deleteById(id);
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        userDao.delete(id);
     }
 
-    public User getById(Long id){
+    @Transactional
+    @Override
+    public User getById(Long id) {
         return userDao.getById(id);
     }
 
-    public void update(User user){
+    @Transactional
+    @Override
+    public void update(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDao.save(user);
+        userDao.update(user);
     }
-
-
 }
