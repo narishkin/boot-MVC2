@@ -34,11 +34,12 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String name, String password, Boolean highEdu, LocalDate dateOfBirth) {
+    public User(String name, String password, Boolean highEdu, LocalDate dateOfBirth, Set<Role> roles) {
         this.name = name;
         this.password = password;
         this.highEdu = highEdu;
         this.dateOfBirth = dateOfBirth;
+        this.roles = roles;
     }
 
     @ManyToMany( fetch = FetchType.EAGER)

@@ -34,10 +34,10 @@ public class UserController {
     }
 
     @GetMapping("/users/new")
-    public String createForm(User user, Model model) {
+    public String createForm( Model model) {
         List<Role> listRoles = roleService.getAll();
         model.addAttribute("listRoles", listRoles);
-        model.addAttribute("user", user);
+        model.addAttribute("user", new User());
         return "new";
     }
 
