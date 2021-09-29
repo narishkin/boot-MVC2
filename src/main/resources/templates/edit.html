@@ -30,7 +30,7 @@
     <label> Roles:</label>
     <div>
         <th:block th:each="role : ${listRoles}">
-            <input type="checkbox" th:field="*{roles}" th:text="${role.role}" th:value="${role.id}"/>
+            <input type="text" th:field="*{roles}" th:text="${role.role}" th:value="${role.id}"/>
         </th:block>
     </div>
 

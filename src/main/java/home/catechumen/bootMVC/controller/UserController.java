@@ -55,9 +55,8 @@ public class UserController {
 
     @GetMapping("/users/edit/{userId}")
     public String updateForm(Model model, @PathVariable("userId") long id) {
-        List<Role> listRoles = roleService.getAll();
         model.addAttribute("user", userService.getById(id));
-        model.addAttribute("listRoles", listRoles);
+        model.addAttribute("listRoles", roleService.getAll());
         return "edit";
     }
 

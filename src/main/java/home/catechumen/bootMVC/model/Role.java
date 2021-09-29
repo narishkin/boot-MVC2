@@ -25,8 +25,8 @@ public class Role implements GrantedAuthority {
         this.role = role;
     }
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+//    @ManyToMany(mappedBy = "roles")
+//    private Set<User> users;
 
     public Long getId() {
         return id;
@@ -60,7 +60,7 @@ public class Role implements GrantedAuthority {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role1 = (Role) o;
-        return id.equals(role1.id) && Objects.equals(role, role1.role) && Objects.equals(users, role1.users);
+        return id.equals(role1.id) && Objects.equals(role, role1.role);
     }
 
     @Override
