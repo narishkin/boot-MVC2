@@ -28,9 +28,17 @@
     <br/>
     <br>
     <label> Roles:</label>
-    <th:block th:each="role : ${listRoles}">
-        <input type="checkbox" th:field="*{roles}" th:text="${role.role}" th:value="${role.id}"/>
-    </th:block>
+    <div>
+        <th:block th:each="role : ${listRoles}">
+            <input type="checkbox" th:field="*{roles}" th:text="${role.role}" th:value="${role.id}"/>
+        </th:block>
+    </div>
+
+    <!--    <select th:field="*{roles}">-->
+    <!--        <option value="#" disabled = "disabled" selected="selected">Role...</option>-->
+    <!--        <option th:each="r : ${listRoles}" th:value="${r.id}" th:text="${r.role}">Roles:</option>-->
+    <!--    </select>-->
+
     <br/>
     <br>
     <input type="submit" value="Update">
