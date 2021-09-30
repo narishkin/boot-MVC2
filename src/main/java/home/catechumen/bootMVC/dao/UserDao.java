@@ -18,7 +18,4 @@ public interface UserDao {
     void delete(Long id);
 
     User findByUserName(String username);
-
-//    @Query(value = "select u FROM User u where u.name=?1")
-//    User findUserByName(String name);
 }
