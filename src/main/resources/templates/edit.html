@@ -30,7 +30,7 @@
     <label> Roles:</label>
     <div>
         <th:block th:each="role : ${listRoles}">
-            <input type="text" th:field="*{roles}" th:text="${role.role}" th:value="1111"/>
+            <input type="text" th:field="*{roles}" th:text="${role.role}" th:value="role.id"/>
         </th:block>
     </div>
 
@@ -44,5 +44,12 @@
     <input type="submit" value="Update">
     <br/>
 </form>
+
+<label> Roles:</label>
+<div>
+    <th:block th:each="role : ${listRoles}">
+        <input type="text" th:field="*{userRolesList}" th:text="${role.role}" th:value="role.id"/>
+    </th:block>
+</div>
 </body>
 </html>

@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -55,7 +58,15 @@ public class UserController {
 
     @GetMapping("/users/edit/{userId}")
     public String updateForm(Model model, @PathVariable("userId") long id) {
+        User user = userService.getById(id);
+        Set<Role> userRoles =  user.getRoles();
+        List<Role> userRolesList = new ArrayList<>(userRoles);
+        System.out.println(user);
+        System.out.println(userRoles);
+        user.setRoles(userRoles);
+
         model.addAttribute("user", userService.getById(id));
+        model.addAttribute("userRolesList", userRoles);
         model.addAttribute("listRoles", roleService.getAll());
         return "edit";
     }
