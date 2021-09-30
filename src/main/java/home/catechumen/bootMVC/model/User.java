@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -28,9 +29,21 @@ public class User implements UserDetails {
     @Column(name = "dob")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
+
     @Transient
     private Long lifeTimeDays;
+// for front
+    @Transient
+    private List<String> rolesIds;
 
+    public List<String> getRolesIds() {
+        return rolesIds;
+    }
+
+    public void setRolesIds(List<String > rolesIds) {
+        this.rolesIds = rolesIds;
+    }
+//for front
     public User() {
     }
 
@@ -46,19 +59,19 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private Collection<Role> roles;
 
 
     public Long getId() {
         return id;
     }
 
-    public Set<Role> getRoles() {
+    public Collection<Role> getRoles() {
 
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Collection<Role> roles) {
         this.roles = roles;
     }
 

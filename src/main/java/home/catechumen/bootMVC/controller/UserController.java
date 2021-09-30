@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -59,15 +59,17 @@ public class UserController {
     @GetMapping("/users/edit/{userId}")
     public String updateForm(Model model, @PathVariable("userId") long id) {
         User user = userService.getById(id);
-        Set<Role> userRoles =  user.getRoles();
-        List<Role> userRolesList = new ArrayList<>(userRoles);
-        System.out.println(user);
-        System.out.println(userRoles);
-        user.setRoles(userRoles);
-
-        model.addAttribute("user", userService.getById(id));
-        model.addAttribute("userRolesList", userRoles);
-        model.addAttribute("listRoles", roleService.getAll());
+        List<Role> listRoles = roleService.getAll();
+        Collection<Role> userRoles =  user.getRoles();
+        List<String> userRolesList = new ArrayList<>();
+        for (Role userRole : userRoles) {
+            userRolesList.add(userRole.getRole());
+        }
+        user.setRolesIds(userRolesList);
+        System.out.println(userRolesList);
+        model.addAttribute("user", user);
+//        model.addAttribute("userRolesList", userRoles);
+        model.addAttribute("listRoles", listRoles);
         return "edit";
     }
 
