@@ -45,6 +45,7 @@ public class UserController {
 
     @PostMapping("/users/new")
     public String create(User user) {
+        frontRemapping(user);
         userService.save(user);
         return "redirect:/admin/users";
     }
@@ -58,32 +59,23 @@ public class UserController {
     @GetMapping("/users/edit/{userId}")
     public String updateForm(Model model, @PathVariable("userId") long id) {
         User user = userService.getById(id);
-        List<Role> listRoles = roleService.getAll();
-        Collection<Role> userRoles =  user.getRoles();
-        List<String> userRolesList = new ArrayList<>();
-        for (Role userRole : userRoles) {
-            userRolesList.add(userRole.getId().toString());
-        }
-        user.setRolesIds(userRolesList);
-        System.out.println(userRolesList);
+        user.setRolesIds(user.getRoles().stream().map(r -> r.getId().toString()).collect(Collectors.toList()));
         model.addAttribute("user", user);
-        model.addAttribute("listRoles", listRoles);
+        model.addAttribute("listRoles", roleService.getAll());
         return "edit";
     }
 
     @PostMapping("/users/edit")
-    public String update(User user, Role role) {
-        Set<Role> currentUserRolesSet = new HashSet<>();
-        List<Role> listRoles = roleService.getAll();
-        List<Long> collect = user.getRolesIds().stream().mapToLong(Long::parseLong).boxed().collect(Collectors.toList());
-        for (Role roles : listRoles) {
-            if (collect.contains(roles.getId())){
-                currentUserRolesSet.add(roles);
-            }
-        }
-        user.setRoles(currentUserRolesSet);
+    public String update(User user) {
+        frontRemapping(user);
         userService.update(user);
         return "redirect:/admin/users";
     }
 
+    private void frontRemapping(User user) {
+        Collection<Role> listRoles = roleService.getAll();
+        List<Long> userIds = user.getRolesIds().stream().mapToLong(Long::parseLong).boxed().collect(Collectors.toList());
+        List<Role> userRolesSet = listRoles.stream().filter(role -> userIds.contains(role.getId())).collect(Collectors.toList());
+        user.setRoles(userRolesSet);
+    }
 }
