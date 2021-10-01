@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -63,18 +62,26 @@ public class UserController {
         Collection<Role> userRoles =  user.getRoles();
         List<String> userRolesList = new ArrayList<>();
         for (Role userRole : userRoles) {
-            userRolesList.add(userRole.getRole());
+            userRolesList.add(userRole.getId().toString());
         }
         user.setRolesIds(userRolesList);
         System.out.println(userRolesList);
         model.addAttribute("user", user);
-//        model.addAttribute("userRolesList", userRoles);
         model.addAttribute("listRoles", listRoles);
         return "edit";
     }
 
     @PostMapping("/users/edit")
     public String update(User user, Role role) {
+        Set<Role> currentUserRolesSet = new HashSet<>();
+        List<Role> listRoles = roleService.getAll();
+        List<Long> collect = user.getRolesIds().stream().mapToLong(Long::parseLong).boxed().collect(Collectors.toList());
+        for (Role roles : listRoles) {
+            if (collect.contains(roles.getId())){
+                currentUserRolesSet.add(roles);
+            }
+        }
+        user.setRoles(currentUserRolesSet);
         userService.update(user);
         return "redirect:/admin/users";
     }
