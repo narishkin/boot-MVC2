@@ -30,8 +30,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
             String authorityName = grantedAuthority.getAuthority();
             if (roleTargetUrlMap.containsKey(authorityName)) {
                 redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, roleTargetUrlMap.get(authorityName));
-            } else {
-                throw new IllegalStateException();
+                return;
             }
         }
         if (session == null) {
