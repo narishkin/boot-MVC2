@@ -29,14 +29,14 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public String userList(Model model){
+    public String userList(Model model) {
         List<User> users = userService.getAll();
         model.addAttribute("users", users);
         return "users";
     }
 
     @GetMapping("/users/new")
-    public String createForm( Model model) {
+    public String createForm(Model model) {
         List<Role> listRoles = roleService.getAll();
         model.addAttribute("listRoles", listRoles);
         model.addAttribute("user", new User());
@@ -73,9 +73,10 @@ public class UserController {
     }
 
     private void frontRemapping(User user) {
-        Collection<Role> listRoles = roleService.getAll();
-        List<Long> userIds = user.getRolesIds().stream().mapToLong(Long::parseLong).boxed().collect(Collectors.toList());
-        List<Role> userRolesSet = listRoles.stream().filter(role -> userIds.contains(role.getId())).collect(Collectors.toList());
+        List<Long> userIds = user.getRolesIds().stream()
+                .mapToLong(Long::parseLong).boxed().collect(Collectors.toList());
+        List<Role> userRolesSet = roleService.getAll().stream().filter(
+                role -> userIds.contains(role.getId())).collect(Collectors.toList());
         user.setRoles(userRolesSet);
     }
 }
