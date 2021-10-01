@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -74,8 +75,8 @@ public class UserController {
     private void frontRemapping(User user) {
         List<Long> userIds = user.getRolesIds().stream()
                 .mapToLong(Long::parseLong).boxed().collect(Collectors.toList());
-        List<Role> userRolesSet = roleService.getAll().stream().filter(
-                role -> userIds.contains(role.getId())).collect(Collectors.toList());
+        List<Role> userRolesSet = roleService.getAll().stream()
+                .filter(role -> userIds.contains(role.getId())).collect(Collectors.toList());
         user.setRoles(userRolesSet);
     }
 }
