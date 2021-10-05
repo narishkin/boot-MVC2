@@ -25,9 +25,9 @@ public class CommonController {
         return "user";
     }
 
-    @GetMapping("/admin")
-    public String getAdminHomePage() {
-        return "admin";
-    }
+//    @GetMapping("/admin")
+//    public String getAdminHomePage() {
+//        return "admin";
+//    }
 }
 

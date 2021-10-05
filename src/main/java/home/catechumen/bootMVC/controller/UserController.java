@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,11 +29,15 @@ public class UserController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/users")
-    public String userList(Model model) {
+    @GetMapping
+    public String userList(Model model, Principal principal) {
         List<User> users = userService.getAll();
         model.addAttribute("users", users);
-        return "users";
+        if (principal != null) {
+            String s = principal.getName();
+            model.addAttribute("userinfo", s);
+        }
+        return "admin";
     }
 
     @GetMapping("/users/new")
@@ -47,13 +52,13 @@ public class UserController {
     public String create(User user) {
         frontRemapping(user);
         userService.save(user);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
     @GetMapping("/users/delete/{userId}")
     public String delete(@PathVariable("userId") Long id) {
         userService.delete(id);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
     @GetMapping("/users/edit/{userId}")
@@ -69,7 +74,7 @@ public class UserController {
     public String update(User user) {
         frontRemapping(user);
         userService.update(user);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
     private void frontRemapping(User user) {

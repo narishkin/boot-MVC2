@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <style>
+        body{            
+            background-color: #f1f1f1;
+            color :#1f141e;
+            font-size: 16px;
+            font-weight: lighter;
+        }
+        .shapka{
+               color: blue ; 
+            }
+        .kop{
+            background-color: green;
+            max-width:50%;
+            margin: auto;            
+            border-color: green;
+            border-width: 5px;
+        }
+    </style>
+</head>
+<body >
+<div class="kop">
+        <div th:switch="${users}" >
+            <h2 th:case="null">No users found!</h2>
+            <div th:case="*">
+                <h2>Users</h2>
+                <table>
+                    <thead>
+                    <tr class="shapka">
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>BirthDate</th>
+                        <th>LifeTime (days)</th>
+                        <th>High Education</th>
+                        <th>Roles</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.getId()}"></td>
+                        <td th:text="${user.getName()}"></td>
+                        <td th:text="${user.getDateOfBirth()}"></td>
+                        <td th:text="${user.getLifeTimeDays()}"></td>
+                        <td th:text="${user.getHighEdu()}"></td>
+                        <td th:text="${user.getRoles()}"></td>
+                        <td><a th:href="@{/admin/users/edit/{id}(id=${user.id})}">Edit</a></td>
+                        <td><a th:href="@{/admin/users/delete/{id}(id=${user.id})}">Delete</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p><a href="/admin/users/new">Create user</a></p>
+            <form method="get" action="/logout">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+</div>
+</body>
+</html>
