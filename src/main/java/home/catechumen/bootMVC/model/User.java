@@ -7,10 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -32,9 +29,9 @@ public class User implements UserDetails {
 
     @Transient
     private Long lifeTimeDays;
-// for front
+/* for front*/
     @Transient
-    private List<String> rolesIds;
+    private List<String> rolesIds = new ArrayList<>();
 
     public List<String> getRolesIds() {
         return rolesIds;
@@ -43,7 +40,7 @@ public class User implements UserDetails {
     public void setRolesIds(List<String > rolesIds) {
         this.rolesIds = rolesIds;
     }
-//for front
+/*for front*/
     public User() {
     }
 

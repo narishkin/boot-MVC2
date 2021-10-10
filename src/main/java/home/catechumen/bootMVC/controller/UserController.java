@@ -5,6 +5,8 @@ import home.catechumen.bootMVC.model.User;
 import home.catechumen.bootMVC.service.RoleServiceImpl;
 import home.catechumen.bootMVC.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,26 +32,34 @@ public class UserController {
     }
 
     @GetMapping
-    public String userList(Model model, Principal principal) {
+    public String userList(Model model, Principal principal, User user) {
         List<User> users = userService.getAll();
+        for (User u : users) {
+            u.setRolesIds(u.getRoles().stream().map(r -> r.getId().toString()).collect(Collectors.toList()));
+        }
         model.addAttribute("users", users);
         if (principal != null) {
+            Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
             String s = principal.getName();
             model.addAttribute("userinfo", s);
+            model.addAttribute("userRoles", authorities);
+            List<Role> listRoles = roleService.getAll();
+            model.addAttribute("listRoles", listRoles);
         }
         return "admin";
     }
 
-    @GetMapping("/users/new")
-    public String createForm(Model model) {
-        List<Role> listRoles = roleService.getAll();
-        model.addAttribute("listRoles", listRoles);
-        model.addAttribute("user", new User());
-        return "new";
-    }
+//    @GetMapping("/users/new")
+//    public String createForm(Model model) {
+//        List<Role> listRoles = roleService.getAll();
+//        model.addAttribute("listRoles", listRoles);
+//        model.addAttribute("user", new User());
+//        return "new";
+//    }
 
     @PostMapping("/users/new")
     public String create(User user) {
+        System.out.println(user);
         frontRemapping(user);
         userService.save(user);
         return "redirect:/admin";
@@ -72,6 +82,7 @@ public class UserController {
 
     @PostMapping("/users/edit")
     public String update(User user) {
+        System.out.println(user);
         frontRemapping(user);
         userService.update(user);
         return "redirect:/admin";
