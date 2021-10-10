@@ -17,9 +17,9 @@
     <div class="container-fluid">
         <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
             <ul class="navbar-nav me-auto" style="align-items: baseline">
-                <span class="navbar-brand flex-grow-1 ">
+                <div class="navbar-brand flex-grow-1 ">
                     <h4 class="mb-1" th:text="${userinfo}" style="color: #f1f1f1"></h4>
-                </span>
+                </div>
                 <span class="navbar-brand flex-grow-1 align-baseline">
                     <p style="color: #f1f1f1" class="fst-italic mb-1">with roles:</p>
                 </span>
@@ -143,18 +143,43 @@
                                                                 Education</label>
                                                             <input class="form-check-input" type="checkbox"
                                                                    id="edithighEdu" name="highEdu"
-                                                                   value="${users[__${uStat.index}__].highEdu}">
+                                                                   value="true">
                                                         </div>
 
-                                                        <div>
-                                                            <th:block th:each="role : ${listRoles}">
-                                                                <input type="text"
-                                                                       th:value="${users[__${uStat.index}__].rolesIds}"
-                                                                       name="rolesIds" th:text="${role.role}"/>
-                                                            </th:block>
-                                                        </div>
+<!--                                                        <div>-->
+<!--                                                            <th:block th:each="role : ${listRoles}">-->
+<!--                                                                <input type="text"-->
+<!--                                                                       value="${users[__${uStat.index}__].rolesIds}"-->
+<!--                                                                       name="rolesIds" th:text="${role.role}"/>-->
+<!--                                                            </th:block>-->
+<!--                                                        </div>-->
+<!--                                                        <div class="form-check">-->
+<!--                                                            <input class="form-check-input" type="checkbox" value="1" id="admin" name="rolesIds">-->
+<!--                                                            <label class="form-check-label" for="admin">-->
+<!--                                                                ROLE_ADMIN-->
+<!--                                                            </label>-->
+<!--                                                        </div>-->
+<!--                                                        <div class="form-check">-->
+<!--                                                            <input class="form-check-input" type="checkbox" value="2" id="user" name="rolesIds">-->
+<!--                                                            <label class="form-check-label" for="user">-->
+<!--                                                                ROLE_USER-->
+<!--                                                            </label>-->
+<!--                                                        </div>-->
+<!--                                                        <div class="form-check">-->
+<!--                                                            <input class="form-check-input" type="checkbox" value="3" id="viewer" name="rolesIds">-->
+<!--                                                            <label class="form-check-label" for="viewer">-->
+<!--                                                                ROLE_VIEWER-->
+<!--                                                            </label>-->
+<!--                                                        </div>-->
 
-                                                        </th:block>
+                                                        <h3>Role</h3>
+                                                        <select class="form-select" multiple aria-label="multiple select example" name="rolesIds">
+                                                            <option value="1">ROLE_ADMIN</option>
+                                                            <option value="2">ROLE_USER</option>
+                                                            <option value="3">ROLE_VIEWER</option>
+                                                        </select>
+
+
 
                                                     </div>
 
