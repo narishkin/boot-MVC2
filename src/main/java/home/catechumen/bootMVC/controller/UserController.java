@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,9 +33,7 @@ public class UserController {
     @GetMapping
     public String userList(Model model, Principal principal, User user) {
         List<User> users = userService.getAll();
-        for (User u : users) {
-            u.setRolesIds(u.getRoles().stream().map(r -> r.getId().toString()).collect(Collectors.toList()));
-        }
+        users.forEach(a -> a.setRolesIds(a.getRoles().stream().map(r -> r.getId().toString()).collect(Collectors.toList())));
         model.addAttribute("users", users);
         if (principal != null) {
             Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
@@ -63,15 +60,6 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/users/edit/{userId}")
-    public String updateForm(Model model, @PathVariable("userId") long id) {
-        User user = userService.getById(id);
-        user.setRolesIds(user.getRoles().stream().map(r -> r.getId().toString()).collect(Collectors.toList()));
-        model.addAttribute("user", user);
-        model.addAttribute("listRoles", roleService.getAll());
-        return "edit";
-    }
-
     @PostMapping("/users/edit")
     public String update(User user) {
         System.out.println(user);
@@ -79,9 +67,6 @@ public class UserController {
         userService.update(user);
         return "redirect:/admin";
     }
-
-
-
 
     private void frontRemapping(User user) {
         List<Long> userIds = user.getRolesIds().stream()

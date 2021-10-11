@@ -29,32 +29,21 @@ public class CommonController {
         this.roleService = roleService;
     }
 
-
     @GetMapping("/login")
     public String loginView() {
         return "login";
     }
 
-//    @GetMapping("/user")
-//    public String getUserHomePage(Principal principal, Model model) {
-//        if (principal != null) {
-//            String s = principal.getName();
-//            model.addAttribute("userinfo", s);
-//        }
-//        return "user";
-//    }
 
     @GetMapping("/user")
-    public String userPage(Model model, Principal principal, User user) {
+    public String userPage(Model model, Principal principal) {
         List<User> users = userService.getAll();
-        for (User u : users) {
-            u.setRolesIds(u.getRoles().stream().map(r -> r.getId().toString()).collect(Collectors.toList()));
-        }
+        users.forEach(a -> a.setRolesIds(a.getRoles().stream().map(r -> r.getId().toString()).collect(Collectors.toList())));
         model.addAttribute("users", users);
         if (principal != null) {
-            Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-            String s = principal.getName();
-            model.addAttribute("userinfo", s);
+            Collection<? extends GrantedAuthority> authorities =
+                    SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+            model.addAttribute("userinfo", principal.getName());
             model.addAttribute("userRoles", authorities);
             List<Role> listRoles = roleService.getAll();
             model.addAttribute("listRoles", listRoles);
@@ -62,9 +51,5 @@ public class CommonController {
         return "user";
     }
 
-//    @GetMapping("/admin")
-//    public String getAdminHomePage() {
-//        return "admin";
-//    }
 }
 
