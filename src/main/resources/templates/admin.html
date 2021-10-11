@@ -66,8 +66,8 @@
                                     type="button" role="tab" aria-controls="nav-home" aria-selected="true">Users list
                             </button>
                             <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
-                                    data-bs-target="#nav-profile"
-                                    type="button" role="tab" aria-controls="nav-profile" aria-selected="false">New user
+                                    data-bs-target="#nav-newusertab"
+                                    type="button" role="tab" aria-controls="nav-newusertab" aria-selected="false">New user
                             </button>
                         </div>
                     </nav>
@@ -211,20 +211,27 @@
                                                         </div>
 
                                                         <div class="form-check">
-                                                            <input readonly class="form-check-input" type="checkbox"
+                                                            <input  class="form-check-input" type="checkbox"
                                                                    value="highEdu"
                                                                    id="delhighEdu" name="highEdu"
-                                                                   th:value="${users[__${uStat.index}__].highEdu}">
+                                                                   th:value="${users[__${uStat.index}__].highEdu}" disabled>
                                                             <label class="form-check-label" for="delhighEdu">High
                                                                 Education</label>
                                                         </div>
 
                                                         <div>
-                                                            <th:block th:each="role : ${listRoles}">
-                                                                <input type="text"
-                                                                       th:value="${users[__${uStat.index}__].rolesIds}"
-                                                                       name="rolesIds" th:text="${role.role}"/>
-                                                            </th:block>
+<!--                                                            <th:block th:each="role : ${listRoles}">-->
+<!--                                                                <input type="text"-->
+<!--                                                                       th:value="${users[__${uStat.index}__].rolesIds}"-->
+<!--                                                                       name="rolesIds" th:text="${role.role}"/>-->
+<!--                                                            </th:block>-->
+
+                                                            <h3>Role</h3>
+                                                            <select  class="form-select" multiple aria-label="multiple select example" name="rolesIds" disabled>
+                                                                <option value="1">ROLE_ADMIN</option>
+                                                                <option value="2">ROLE_USER</option>
+                                                                <option value="3">ROLE_VIEWER</option>
+                                                            </select>
                                                         </div>
 
                                                         </th:block>
@@ -247,7 +254,7 @@
                                     <td>
                                         <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                                 data-bs-target="#modal-warning"
-                                                th:attr="data-bs-target='#modal-warning'+${u.id}">Edit
+                                                th:attr="data-bs-target='#modal-warning'+${u.id}" style="border-color: darkgrey;  background: darkgrey" >Edit
                                         </button>
                                     </td>
 
@@ -263,7 +270,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="tab-pane fade position-relative" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
+                        <div class="tab-pane fade position-relative" id="nav-newusertab" role="tabpanel" aria-labelledby="nav-profile-tab"
                              sec:authorize="hasRole('ROLE_ADMIN')">
                             <div class="position-absolute top-100 start-0 translate-middle">
                             <form style="width: 480px" class= position-absolute  th:action="@{/admin/users/new}" method="POST" th:object="${user}">
@@ -272,7 +279,7 @@
 
                                 <div class="mb-3">
                                     <label for="name" class="col-form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name">
+                                    <input type="text" class="form-control" id="name" name="name" required>
                                 </div>
 
                                 <div class="mb-3">
@@ -282,7 +289,7 @@
 
                                 <div class="mb-3">
                                     <label for="bd" class="col-form-label">Birthdate</label>
-                                    <input type="date" class="form-control" id="bd" name="dateOfBirth">
+                                    <input type="date" class="form-control" id="bd" name="dateOfBirth" required>
                                 </div>
 
                                 <div class="form-check">
@@ -291,14 +298,12 @@
                                     <label class="form-check-label" for="highEdu">High Education</label>
                                 </div>
 
-                                <label for="role" class="form-check-label mt-2 mb-2">Select roles:</label>
-                                <th:block th:each="role : ${listRoles}">
-                                    <div class="mb-3">
-                                        <input type="checkbox" class="form-check-input " id="role"
-                                               th:field="*{rolesIds}"
-                                               th:text="${role.role}" th:value="${role.id}">
-                                    </div>
-                                </th:block>
+                                <h3>Select role:</h3>
+                                <select class="form-select" multiple aria-label="multiple select example" name="rolesIds">
+                                    <option value="1">ROLE_ADMIN</option>
+                                    <option value="2">ROLE_USER</option>
+                                    <option value="3">ROLE_VIEWER</option>
+                                </select>
 
 
                                 <div>
