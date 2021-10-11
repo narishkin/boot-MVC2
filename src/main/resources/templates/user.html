@@ -17,11 +17,11 @@
     <div class="container-fluid">
         <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
             <ul class="navbar-nav me-auto" style="align-items: baseline">
-                <span class="navbar-brand flex-grow-1 ">
+                <div class="navbar-brand flex-grow-1 ">
                     <h4 class="mb-1" th:text="${userinfo}" style="color: #f1f1f1"></h4>
-                </span>
+                </div>
                 <span class="navbar-brand flex-grow-1 align-baseline">
-                    <p style="color: #f1f1f1" class="fst-italic mb-1" >with roles:</p>
+                    <p style="color: #f1f1f1" class="fst-italic mb-1">with roles:</p>
                 </span>
                 <span class="navbar-brand flex-grow-1 align-baseline">
                     <h5 class="mb-2" style="color: #f1f1f1" th:text="${userRoles}"></h5>
@@ -45,15 +45,17 @@
     <div class="row">
         <div class="col-xs-12 col-md-2">
             <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list"
-                   href="#list-home" role="tab" aria-controls="list-home">User</a>
 
+                <a class="list-group-item list-group-item-action active"  id="list-profile-list"
+                   data-bs-toggle="list"
+                   href="#list-profile" role="tab" aria-controls="list-profile">User</a>
             </div>
         </div>
         <div class="col-xs-12 col-md-10" style="background: #f1f1f1">
 
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-home-list">
+
+                <div class="tab-pane fade show active" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
                     <h2>User information-page</h2>
                     <table class="table table-striped table-hover">
                         <h5 class="mt-3">About user</h5>
@@ -69,18 +71,17 @@
                         </thead>
                         <tbody>
                         <tr th:each="u : ${users}">
-                            <span th:if="${u.getName() == userinfo}">
+                            <div th:if="${u.getName() == userinfo}">
                             <td th:text="${u.getId()}"></td>
                             <td th:text="${u.getName()}"></td>
                             <td th:text="${u.getDateOfBirth()}"></td>
                             <td th:text="${u.getLifeTimeDays()}"></td>
                             <td th:text="${u.getHighEdu()}"></td>
                             <td th:text="${u.getRoles()}"></td>
-                            </span>
+                            </div>
                         </tr>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>

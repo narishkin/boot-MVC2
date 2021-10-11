@@ -49,14 +49,6 @@ public class UserController {
         return "admin";
     }
 
-//    @GetMapping("/users/new")
-//    public String createForm(Model model) {
-//        List<Role> listRoles = roleService.getAll();
-//        model.addAttribute("listRoles", listRoles);
-//        model.addAttribute("user", new User());
-//        return "new";
-//    }
-
     @PostMapping("/users/new")
     public String create(User user) {
         System.out.println(user);
@@ -87,6 +79,9 @@ public class UserController {
         userService.update(user);
         return "redirect:/admin";
     }
+
+
+
 
     private void frontRemapping(User user) {
         List<Long> userIds = user.getRolesIds().stream()

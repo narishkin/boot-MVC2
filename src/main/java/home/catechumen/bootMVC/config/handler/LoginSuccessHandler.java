@@ -24,7 +24,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
                                         Authentication authentication) throws IOException {
         HttpSession session = httpServletRequest.getSession();
-        Map<String, String> roleTargetUrlMap = Map.of("ROLE_USER", "/admin", "ROLE_ADMIN", "/admin");
+        Map<String, String> roleTargetUrlMap = Map.of("ROLE_USER", "/user", "ROLE_ADMIN", "/admin", "ROLE_VIEWER", "/user");
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {
             String authorityName = grantedAuthority.getAuthority();
