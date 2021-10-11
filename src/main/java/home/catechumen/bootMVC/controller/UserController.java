@@ -38,14 +38,17 @@ public class UserController {
     @GetMapping("/users/new")
     public String createForm(Model model) {
         List<Role> listRoles = roleService.getAll();
+        User user = new User();
         model.addAttribute("listRoles", listRoles);
-        model.addAttribute("user", new User());
+        model.addAttribute("user", user);
+        UserRolesDTO userRolesDTO = new UserRolesDTO();
+        model.addAttribute("userRolesIds",userRolesDTO);
         return "new";
     }
 
     @PostMapping("/users/new")
-    public String create(User user) {
-        frontRemapping(user);
+    public String create(User user, UserRolesDTO userRolesDTO) {
+        frontRemapping(user, userRolesDTO);
         userService.save(user);
         return "redirect:/admin/users";
     }
@@ -59,22 +62,26 @@ public class UserController {
     @GetMapping("/users/edit/{userId}")
     public String updateForm(Model model, @PathVariable("userId") long id) {
         User user = userService.getById(id);
-        user.setRolesIds(user.getRoles().stream().map(r -> r.getId().toString()).collect(Collectors.toList()));
         model.addAttribute("user", user);
+        UserRolesDTO userRolesDTO = new UserRolesDTO();
+        userRolesDTO.setRolesIds(user.getRoles().stream().map(a -> a.getId().toString()).collect(Collectors.toList()));
         model.addAttribute("listRoles", roleService.getAll());
+        model.addAttribute("userRolesIds",userRolesDTO);
         return "edit";
     }
 
     @PostMapping("/users/edit")
-    public String update(User user) {
-        frontRemapping(user);
+    public String update(User user, UserRolesDTO userRolesDTO) {
+        frontRemapping(user, userRolesDTO);
+        System.out.println(user);
         userService.update(user);
         return "redirect:/admin/users";
     }
 
-    private void frontRemapping(User user) {
-        List<Long> userIds = user.getRolesIds().stream()
+    private void frontRemapping(User user, UserRolesDTO userRolesDTO) {
+        List<Long> userIds = userRolesDTO.getRolesIds().stream()
                 .mapToLong(Long::parseLong).boxed().collect(Collectors.toList());
+        System.out.println(userRolesDTO.getRolesIds());
         List<Role> userRolesSet = roleService.getAll().stream()
                 .filter(role -> userIds.contains(role.getId())).collect(Collectors.toList());
         user.setRoles(userRolesSet);
