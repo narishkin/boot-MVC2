@@ -29,18 +29,7 @@ public class User implements UserDetails {
 
     @Transient
     private Long lifeTimeDays;
-/* for front*/
-    @Transient
-    private List<String> rolesIds = new ArrayList<>();
 
-    public List<String> getRolesIds() {
-        return rolesIds;
-    }
-
-    public void setRolesIds(List<String > rolesIds) {
-        this.rolesIds = rolesIds;
-    }
-/*for front*/
     public User() {
     }
 

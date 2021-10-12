@@ -38,7 +38,7 @@ public class CommonController {
     @GetMapping("/user")
     public String userPage(Model model, Principal principal) {
         List<User> users = userService.getAll();
-        users.forEach(a -> a.setRolesIds(a.getRoles().stream().map(r -> r.getId().toString()).collect(Collectors.toList())));
+        UserRolesDTO userRolesDTO = new UserRolesDTO();
         model.addAttribute("users", users);
         if (principal != null) {
             Collection<? extends GrantedAuthority> authorities =
@@ -47,6 +47,7 @@ public class CommonController {
             model.addAttribute("userRoles", authorities);
             List<Role> listRoles = roleService.getAll();
             model.addAttribute("listRoles", listRoles);
+            model.addAttribute("userRolesDTO", userRolesDTO);
         }
         return "user";
     }
